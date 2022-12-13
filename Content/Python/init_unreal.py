@@ -12,13 +12,13 @@ def run_entrypoints():
         # Usually this is a very bad thing.  But since this is top level, embedded, main-loop initialization; it actually makes sense.
         try:
             #run the entrypoint
-            unreal.log("Running an 'init_unreal' entrypoint: {} {} {}".format(entry_point.name,entry_point.value,entry_point.group))
-            entry_point.load()
+            unreal.log("Running an 'init_unreal' entrypoint: {}".format(str(entry_point)))
+            #can be unintuitive.  load() returns a function.  the second () runs the returned function.
+            entry_point.load()()
         except:
             #if we've thrown for any reason, we log loudly to the unreal console and print the kind of stack trace one would expect from a repl
-            unreal.log_error("An 'init_unreal' entrypoint threw an exception: {} {} {}".format(entry_point.name,entry_point.value,entry_point.group))
-            for line in traceback.format_exc():
-                unreal.log_error(line)
+            unreal.log_error("An 'init_unreal' entrypoint threw an exception: {}".format(str(entry_point)))
+            unreal.log_error(traceback.format_exc())
 
 
 #run the function when this script is run (by unreal).
